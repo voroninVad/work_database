@@ -1,0 +1,82 @@
+1
+DELIMITER //
+CREATE PROCEDURE PR1_info_students(num_grup varchar(15))
+BEGIN
+SELECT FIO,D_R from student WHERE Gruppa = num_grup;
+END; //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE PR1_info_students(spec int(15))
+BEGIN
+SELECT FIO,D_R from student WHERE Kod_spec = spec;
+END; //
+DELIMITER ;
+
+2 
+DELIMITER //
+CREATE PROCEDURE PR1_students(familiya_student varchar(15), new_stipendiya float(15))
+BEGIN
+update student set Stipendiya = new_stipendiya WHERE fio = familiya_student;
+END; //
+DELIMITER ;
+
+3
+DELIMITER //
+CREATE PROCEDURE PR3_students(spec int(15))
+BEGIN
+SELECT FIO,Kod_spec,Kod_uz,Stipendiya from student WHERE Kod_spec = spec;
+END; //
+DELIMITER ;
+
+4
+DELIMITER //
+CREATE PROCEDURE PR4_students(num_grup varchar(15))
+BEGIN
+SELECT SUM(Stipendiya) AS sum_stip from student WHERE Gruppa = num_grup;
+END; //
+DELIMITER ;
+
+5
+DELIMITER //
+create procedure PR5_students(d_r date, kolledg varchar(50)) 
+begin
+select student.FIO,student.D_R,student.Gruppa,student.Stipendiya,s_kolleges.Name_Kollege 
+from student JOIN s_kolleges on student.Kod_uz = s_kolleges.Kod_uz 
+where s_kolleges.Name_Kollege = kolledg AND student.D_R = d_r;
+end
+//
+
+6
+
+DELIMITER //
+create procedure PR6_students(kolledg varchar(50)) 
+begin
+select student.FIO,student.D_R,student.Grupps,student.Stipendiya,s_kolleges.Name_Kolledge 
+from student JOIN s_kolleges on student.Kod_uz = s_kolleges.Kod_uz 
+where s_kolleges.Name_Kolledge = kolledg AND student.Stipendiya  IS NULL;
+end
+//
+
+-- call PR5_students("1999-11-22","Industrial College");
+
+7
+
+DELIMITER //
+CREATE PROCEDURE PR7_students(ot_date date, do_date date)
+BEGIN
+select fio,D_R,Stipendiya from student Where D_R >= ot_date AND D_R <= do_date;
+END; //
+DELIMITER ;
+
+
+8
+
+DELIMITER //
+CREATE PROCEDURE PR8_students(gruppa varchar(10))
+BEGIN
+update student set Stipendiya = Stipendiya * 2 Where Grupps = gruppa;
+select fio,Stipendiya from student Where Grupps = gruppa;
+select fio,Stipendiya,Grupps from student Where Grupps != gruppa;
+END; //
+DELIMITER ;
